@@ -1,0 +1,417 @@
+2025-03-14 16:40:41,334 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 16:43:07,115 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 16:43:07,116 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: 最新:最新
+2025-03-14 16:43:07,116 [INFO    ] [__log_valid_parameters] connection_settings: {'host': '172.28.12.64', 'port': 3306, 'user': 'operuser', 'password': 'oper@1001pyt', 'charset': 'utf8mb4'}
+2025-03-14 16:43:07,116 [INFO    ] [__log_valid_parameters] resume_stream: True
+2025-03-14 16:43:07,117 [INFO    ] [__log_valid_parameters] blocking: True
+2025-03-14 16:43:07,117 [INFO    ] [__log_valid_parameters] only_tables: ['net_value', 'tshopmngunit', 't_funds_zhishu_standard', 'product', 'fund_trade_rule', 'fund_open_ended_value', 'tshopmngteam']
+2025-03-14 16:43:07,117 [INFO    ] [__log_valid_parameters] only_schemas: ['db_comm', 'fm_hedge', 'db_funds']
+2025-03-14 16:43:07,117 [INFO    ] [__log_valid_parameters] allowed_events_in_packet: frozenset({<class 'pymysqlreplication.row_event.UpdateRowsEvent'>, <class 'pymysqlreplication.event.RotateEvent'>, <class 'pymysqlreplication.row_event.DeleteRowsEvent'>, <class 'pymysqlreplication.row_event.WriteRowsEvent'>, <class 'pymysqlreplication.row_event.TableMapEvent'>})
+2025-03-14 16:43:07,117 [INFO    ] [__log_valid_parameters] server_id: 336258528
+2025-03-14 16:43:07,117 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: None
+2025-03-14 16:43:07,636 [WARNING ] [__check_optional_meta_data] 
+                    Before using MARIADB 10.5.0 and MYSQL 8.0.14 versions,
+                    use python-mysql-replication version Before 1.0 version 
+2025-03-14 16:43:07,637 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 16:51:23,516 [INFO    ] [start_stream        ] 用户手动终止同步
+2025-03-14 16:51:23,523 [INFO    ] [_write_batch        ] 写入 4 行到 db_comm_tshopmngteam.csv
+2025-03-14 16:51:23,523 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:45374532
+2025-03-14 16:51:23,523 [INFO    ] [<module>            ] ========== 同步正常结束 ==========
+2025-03-14 16:51:23,847 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 16:51:23,848 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 16:51:23,848 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:45374532
+2025-03-14 16:51:23,848 [INFO    ] [__log_valid_parameters] connection_settings: {'host': '172.28.12.64', 'port': 3306, 'user': 'operuser', 'password': 'oper@1001pyt', 'charset': 'utf8mb4'}
+2025-03-14 16:51:23,848 [INFO    ] [__log_valid_parameters] resume_stream: True
+2025-03-14 16:51:23,848 [INFO    ] [__log_valid_parameters] blocking: True
+2025-03-14 16:51:23,848 [INFO    ] [__log_valid_parameters] only_tables: ['t_funds_zhishu_standard', 'net_value', 'fund_open_ended_value', 'product', 'tshopmngunit', 'fund_trade_rule', 'tshopmngteam']
+2025-03-14 16:51:23,850 [INFO    ] [__log_valid_parameters] only_schemas: ['db_funds', 'fm_hedge', 'db_comm']
+2025-03-14 16:51:23,850 [INFO    ] [__log_valid_parameters] allowed_events_in_packet: frozenset({<class 'pymysqlreplication.row_event.WriteRowsEvent'>, <class 'pymysqlreplication.row_event.UpdateRowsEvent'>, <class 'pymysqlreplication.row_event.TableMapEvent'>, <class 'pymysqlreplication.row_event.DeleteRowsEvent'>, <class 'pymysqlreplication.event.RotateEvent'>})
+2025-03-14 16:51:23,850 [INFO    ] [__log_valid_parameters] server_id: 336258528
+2025-03-14 16:51:23,850 [INFO    ] [__log_valid_parameters] log_pos: 45374532
+2025-03-14 16:51:23,850 [INFO    ] [__log_valid_parameters] log_file: binlog.000164
+2025-03-14 16:51:23,850 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 16:51:24,286 [WARNING ] [__check_optional_meta_data] 
+                    Before using MARIADB 10.5.0 and MYSQL 8.0.14 versions,
+                    use python-mysql-replication version Before 1.0 version 
+2025-03-14 16:51:24,287 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:00:00,339 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:00:00,340 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: 最新:最新
+2025-03-14 17:00:00,340 [INFO    ] [__log_valid_parameters] connection_settings: {'host': '172.28.12.64', 'port': 3306, 'user': 'operuser', 'password': 'oper@1001pyt', 'charset': 'utf8mb4'}
+2025-03-14 17:00:00,341 [INFO    ] [__log_valid_parameters] resume_stream: True
+2025-03-14 17:00:00,341 [INFO    ] [__log_valid_parameters] blocking: True
+2025-03-14 17:00:00,341 [INFO    ] [__log_valid_parameters] only_tables: ['fund_trade_rule', 'tshopmngunit', 't_funds_zhishu_standard', 'product', 'tshopmngteam', 'net_value', 'fund_open_ended_value']
+2025-03-14 17:00:00,341 [INFO    ] [__log_valid_parameters] only_schemas: ['fm_hedge', 'db_comm', 'db_funds']
+2025-03-14 17:00:00,341 [INFO    ] [__log_valid_parameters] allowed_events_in_packet: frozenset({<class 'pymysqlreplication.row_event.UpdateRowsEvent'>, <class 'pymysqlreplication.row_event.WriteRowsEvent'>, <class 'pymysqlreplication.row_event.DeleteRowsEvent'>, <class 'pymysqlreplication.event.RotateEvent'>, <class 'pymysqlreplication.row_event.TableMapEvent'>})
+2025-03-14 17:00:00,341 [INFO    ] [__log_valid_parameters] server_id: 336258528
+2025-03-14 17:00:00,341 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: None
+2025-03-14 17:00:00,775 [WARNING ] [__check_optional_meta_data] 
+                    Before using MARIADB 10.5.0 and MYSQL 8.0.14 versions,
+                    use python-mysql-replication version Before 1.0 version 
+2025-03-14 17:00:00,776 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:00:14,459 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 253, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 174, in _process_event
+    column_names = table_map.get_column_names(event.table_id)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'get_column_names'
+2025-03-14 17:00:14,461 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:0
+2025-03-14 17:00:14,461 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 273, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 253, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 174, in _process_event
+    column_names = table_map.get_column_names(event.table_id)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'get_column_names'
+2025-03-14 17:05:35,879 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:05:35,881 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:05:35,882 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:最新
+2025-03-14 17:05:35,882 [INFO    ] [__log_valid_parameters] connection_settings: {'host': '172.28.12.64', 'port': 3306, 'user': 'operuser', 'password': 'oper@1001pyt', 'charset': 'utf8mb4'}
+2025-03-14 17:05:35,882 [INFO    ] [__log_valid_parameters] resume_stream: True
+2025-03-14 17:05:35,882 [INFO    ] [__log_valid_parameters] blocking: True
+2025-03-14 17:05:35,882 [INFO    ] [__log_valid_parameters] only_tables: ['t_funds_zhishu_standard', 'net_value', 'tshopmngunit', 'fund_open_ended_value', 'tshopmngteam', 'fund_trade_rule', 'product']
+2025-03-14 17:05:35,882 [INFO    ] [__log_valid_parameters] only_schemas: ['db_comm', 'fm_hedge', 'db_funds']
+2025-03-14 17:05:35,883 [INFO    ] [__log_valid_parameters] allowed_events_in_packet: frozenset({<class 'pymysqlreplication.row_event.UpdateRowsEvent'>, <class 'pymysqlreplication.row_event.DeleteRowsEvent'>, <class 'pymysqlreplication.row_event.WriteRowsEvent'>, <class 'pymysqlreplication.event.RotateEvent'>, <class 'pymysqlreplication.row_event.TableMapEvent'>})
+2025-03-14 17:05:35,883 [INFO    ] [__log_valid_parameters] server_id: 336258528
+2025-03-14 17:05:35,883 [INFO    ] [__log_valid_parameters] log_file: binlog.000164
+2025-03-14 17:05:35,883 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:05:36,286 [WARNING ] [__check_optional_meta_data] 
+                    Before using MARIADB 10.5.0 and MYSQL 8.0.14 versions,
+                    use python-mysql-replication version Before 1.0 version 
+2025-03-14 17:05:36,290 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 277, in start_stream
+    for event in stream:
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysqlreplication\binlogstream.py", line 596, in fetchone
+    pkt = self._stream_connection._read_packet()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1236, "Client requested master to start replication from impossible position; the first event 'binlog.000164' at 0, the last event read from 'binlog.000164' at 4, the last byte read from 'binlog.000164' at 4.")
+2025-03-14 17:05:36,315 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:0
+2025-03-14 17:05:36,315 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 302, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 277, in start_stream
+    for event in stream:
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysqlreplication\binlogstream.py", line 596, in fetchone
+    pkt = self._stream_connection._read_packet()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1236, "Client requested master to start replication from impossible position; the first event 'binlog.000164' at 0, the last event read from 'binlog.000164' at 4, the last byte read from 'binlog.000164' at 4.")
+2025-03-14 17:05:48,599 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:05:48,601 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:05:48,602 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: 最新:最新
+2025-03-14 17:05:48,602 [INFO    ] [__log_valid_parameters] connection_settings: {'host': '172.28.12.64', 'port': 3306, 'user': 'operuser', 'password': 'oper@1001pyt', 'charset': 'utf8mb4'}
+2025-03-14 17:05:48,602 [INFO    ] [__log_valid_parameters] resume_stream: True
+2025-03-14 17:05:48,602 [INFO    ] [__log_valid_parameters] blocking: True
+2025-03-14 17:05:48,602 [INFO    ] [__log_valid_parameters] only_tables: ['fund_open_ended_value', 't_funds_zhishu_standard', 'fund_trade_rule', 'product', 'net_value', 'tshopmngteam', 'tshopmngunit']
+2025-03-14 17:05:48,602 [INFO    ] [__log_valid_parameters] only_schemas: ['fm_hedge', 'db_funds', 'db_comm']
+2025-03-14 17:05:48,602 [INFO    ] [__log_valid_parameters] allowed_events_in_packet: frozenset({<class 'pymysqlreplication.row_event.TableMapEvent'>, <class 'pymysqlreplication.event.RotateEvent'>, <class 'pymysqlreplication.row_event.UpdateRowsEvent'>, <class 'pymysqlreplication.row_event.DeleteRowsEvent'>, <class 'pymysqlreplication.row_event.WriteRowsEvent'>})
+2025-03-14 17:05:48,602 [INFO    ] [__log_valid_parameters] server_id: 336258528
+2025-03-14 17:05:48,602 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: None
+2025-03-14 17:05:49,103 [WARNING ] [__check_optional_meta_data] 
+                    Before using MARIADB 10.5.0 and MYSQL 8.0.14 versions,
+                    use python-mysql-replication version Before 1.0 version 
+2025-03-14 17:05:49,104 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:06:03,175 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 282, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 193, in _process_event
+    column_names = table_map_event.get_column_names()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'get_column_names'
+2025-03-14 17:06:03,176 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:45811191
+2025-03-14 17:06:03,176 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 302, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 282, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 193, in _process_event
+    column_names = table_map_event.get_column_names()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'get_column_names'
+2025-03-14 17:07:44,311 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:07:44,314 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:07:44,314 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:45811191
+2025-03-14 17:07:44,314 [INFO    ] [__log_valid_parameters] connection_settings: {'host': '172.28.12.64', 'port': 3306, 'user': 'operuser', 'password': 'oper@1001pyt', 'charset': 'utf8mb4'}
+2025-03-14 17:07:44,314 [INFO    ] [__log_valid_parameters] resume_stream: True
+2025-03-14 17:07:44,315 [INFO    ] [__log_valid_parameters] blocking: True
+2025-03-14 17:07:44,315 [INFO    ] [__log_valid_parameters] only_tables: ['t_funds_zhishu_standard', 'net_value', 'fund_trade_rule', 'product', 'fund_open_ended_value', 'tshopmngunit', 'tshopmngteam']
+2025-03-14 17:07:44,315 [INFO    ] [__log_valid_parameters] only_schemas: ['db_funds', 'db_comm', 'fm_hedge']
+2025-03-14 17:07:44,315 [INFO    ] [__log_valid_parameters] allowed_events_in_packet: frozenset({<class 'pymysqlreplication.row_event.UpdateRowsEvent'>, <class 'pymysqlreplication.event.RotateEvent'>, <class 'pymysqlreplication.row_event.WriteRowsEvent'>, <class 'pymysqlreplication.row_event.DeleteRowsEvent'>, <class 'pymysqlreplication.row_event.TableMapEvent'>})
+2025-03-14 17:07:44,315 [INFO    ] [__log_valid_parameters] server_id: 336258528
+2025-03-14 17:07:44,315 [INFO    ] [__log_valid_parameters] log_pos: 45811191
+2025-03-14 17:07:44,315 [INFO    ] [__log_valid_parameters] log_file: binlog.000164
+2025-03-14 17:07:44,315 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:07:44,709 [WARNING ] [__check_optional_meta_data] 
+                    Before using MARIADB 10.5.0 and MYSQL 8.0.14 versions,
+                    use python-mysql-replication version Before 1.0 version 
+2025-03-14 17:07:44,710 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:07:51,993 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 276, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 189, in _process_event
+    column_names = table_map_event.column_names  # 修改点
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'column_names'
+2025-03-14 17:07:51,995 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:45850802
+2025-03-14 17:07:51,995 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 296, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 276, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 189, in _process_event
+    column_names = table_map_event.column_names  # 修改点
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'column_names'
+2025-03-14 17:08:45,090 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:08:45,092 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:08:45,093 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:45850802
+2025-03-14 17:08:45,093 [INFO    ] [__log_valid_parameters] connection_settings: {'host': '172.28.12.64', 'port': 3306, 'user': 'operuser', 'password': 'oper@1001pyt', 'charset': 'utf8mb4'}
+2025-03-14 17:08:45,093 [INFO    ] [__log_valid_parameters] resume_stream: True
+2025-03-14 17:08:45,093 [INFO    ] [__log_valid_parameters] blocking: True
+2025-03-14 17:08:45,093 [INFO    ] [__log_valid_parameters] only_tables: ['fund_open_ended_value', 'tshopmngteam', 'tshopmngunit', 'fund_trade_rule', 'net_value', 't_funds_zhishu_standard', 'product']
+2025-03-14 17:08:45,093 [INFO    ] [__log_valid_parameters] only_schemas: ['fm_hedge', 'db_funds', 'db_comm']
+2025-03-14 17:08:45,093 [INFO    ] [__log_valid_parameters] allowed_events_in_packet: frozenset({<class 'pymysqlreplication.row_event.WriteRowsEvent'>, <class 'pymysqlreplication.row_event.DeleteRowsEvent'>, <class 'pymysqlreplication.row_event.UpdateRowsEvent'>, <class 'pymysqlreplication.event.RotateEvent'>, <class 'pymysqlreplication.row_event.TableMapEvent'>})
+2025-03-14 17:08:45,094 [INFO    ] [__log_valid_parameters] server_id: 336258528
+2025-03-14 17:08:45,094 [INFO    ] [__log_valid_parameters] log_pos: 45850802
+2025-03-14 17:08:45,094 [INFO    ] [__log_valid_parameters] log_file: binlog.000164
+2025-03-14 17:08:45,094 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:08:45,503 [WARNING ] [__check_optional_meta_data] 
+                    Before using MARIADB 10.5.0 and MYSQL 8.0.14 versions,
+                    use python-mysql-replication version Before 1.0 version 
+2025-03-14 17:08:45,505 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:08:53,249 [WARNING ] [_process_event      ] 无法获取 column_schemas，回退到 column_types
+2025-03-14 17:08:53,249 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 191, in _process_event
+    column_names = [column.name for column in table_map_event.column_schemas]
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'column_schemas'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 282, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 194, in _process_event
+    column_names = [f"col_{i}" for i in range(len(table_map_event.column_types))]
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'column_types'
+2025-03-14 17:08:53,250 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:45873735
+2025-03-14 17:08:53,250 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 191, in _process_event
+    column_names = [column.name for column in table_map_event.column_schemas]
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'column_schemas'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 302, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 282, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 194, in _process_event
+    column_names = [f"col_{i}" for i in range(len(table_map_event.column_types))]
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'column_types'
+2025-03-14 17:09:51,101 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:09:51,102 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:09:51,103 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:45873735
+2025-03-14 17:09:51,103 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:09:51,471 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:09:59,462 [WARNING ] [_process_event      ] 无法获取 column_schemas，回退到 column_types
+2025-03-14 17:09:59,463 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 191, in _process_event
+    column_names = [column.name for column in table_map_event.column_schemas]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 191, in <listcomp>
+    column_names = [column.name for column in table_map_event.column_schemas]
+                    ^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 282, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 194, in _process_event
+    column_names = [f"col_{i}" for i in range(len(table_map_event.column_types))]
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'column_types'
+2025-03-14 17:09:59,466 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:45899395
+2025-03-14 17:09:59,466 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 191, in _process_event
+    column_names = [column.name for column in table_map_event.column_schemas]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 191, in <listcomp>
+    column_names = [column.name for column in table_map_event.column_schemas]
+                    ^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 302, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 282, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 194, in _process_event
+    column_names = [f"col_{i}" for i in range(len(table_map_event.column_types))]
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'column_types'
+2025-03-14 17:20:58,330 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:20:58,333 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:20:58,333 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:45899395
+2025-03-14 17:20:58,333 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:20:58,750 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:21:13,777 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 282, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 192, in _process_event
+    column_names = table_map_event.get_column_names()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'get_column_names'
+2025-03-14 17:21:13,778 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:46154249
+2025-03-14 17:21:13,778 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 302, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 282, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 192, in _process_event
+    column_names = table_map_event.get_column_names()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'get_column_names'
+2025-03-14 17:25:53,023 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:25:53,025 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:25:53,026 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:46154249
+2025-03-14 17:25:53,026 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:25:53,342 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:26:03,170 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 279, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 189, in _process_event
+    column_names = table_map_event.get_column_names()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'get_column_names'
+2025-03-14 17:26:03,172 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:46262407
+2025-03-14 17:26:03,172 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 299, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 279, in start_stream
+    self._process_event(event)
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 189, in _process_event
+    column_names = table_map_event.get_column_names()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TableMapEvent' object has no attribute 'get_column_names'
+2025-03-14 17:26:16,762 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:26:16,763 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:26:16,764 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:46262407
+2025-03-14 17:26:16,764 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:26:17,063 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:30:11,458 [INFO    ] [start_stream        ] 用户手动终止同步
+2025-03-14 17:30:11,460 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:46269697
+2025-03-14 17:30:11,460 [INFO    ] [<module>            ] ========== 同步正常结束 ==========
+2025-03-14 17:30:14,198 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:30:14,200 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:30:14,200 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:46269697
+2025-03-14 17:30:14,200 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:30:14,550 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:30:29,980 [ERROR   ] [_get_table_schema   ] 获取表结构失败 db_comm.tshopmngteam: 'Cursor' object has no attribute 'cursor'
+2025-03-14 17:30:37,645 [INFO    ] [start_stream        ] 用户手动终止同步
+2025-03-14 17:30:37,646 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:46360956
+2025-03-14 17:30:37,646 [INFO    ] [<module>            ] ========== 同步正常结束 ==========
+2025-03-14 17:30:40,141 [INFO    ] [<module>            ] ========== 同步任务启动 ==========
+2025-03-14 17:30:40,143 [INFO    ] [full_export         ] 全量导出功能已禁用
+2025-03-14 17:30:40,144 [INFO    ] [start_stream        ] >> 启动增量同步 起始位置: binlog.000164:46360956
+2025-03-14 17:30:40,145 [INFO    ] [start_stream        ] Binlog流已连接 当前文件: binlog.000164
+2025-03-14 17:30:40,444 [INFO    ] [start_stream        ] 检测到binlog切换: binlog.000164
+2025-03-14 17:30:43,069 [ERROR   ] [_get_table_schema   ] 获取表结构失败 db_comm.tshopmngteam: 'Cursor' object has no attribute 'cursor'
+2025-03-15 03:49:33,590 [ERROR   ] [start_stream        ] 增量同步异常
+Traceback (most recent call last):
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\connections.py", line 581, in connect
+    sock = socket.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Softwares\Python\3.11\Lib\socket.py", line 851, in create_connection
+    raise exceptions[0]
+  File "D:\Softwares\Python\3.11\Lib\socket.py", line 836, in create_connection
+    sock.connect(sa)
+OSError: [WinError 10065] 套接字操作尝试一个无法连接的主机。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 276, in start_stream
+    for event in stream:
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysqlreplication\binlogstream.py", line 422, in fetchone
+    self.__connect_to_stream()
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysqlreplication\binlogstream.py", line 277, in __connect_to_stream
+    self._stream_connection = self.pymysql_wrapper(**self.__connection_settings)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\__init__.py", line 94, in Connect
+    return Connection(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\connections.py", line 325, in __init__
+    self.connect()
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\connections.py", line 630, in connect
+    raise exc
+pymysql.err.OperationalError: (2003, "Can't connect to MySQL server on '172.28.12.64' ([WinError 10065] 套接字操作尝试一个无法连接的主机。)")
+2025-03-15 03:49:33,605 [INFO    ] [start_stream        ] << 增量同步停止 最终位置: binlog.000164:46368780
+2025-03-15 03:49:33,605 [CRITICAL] [<module>            ] !!!!!!!! 同步异常终止 !!!!!!!!
+Traceback (most recent call last):
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\connections.py", line 581, in connect
+    sock = socket.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Softwares\Python\3.11\Lib\socket.py", line 851, in create_connection
+    raise exceptions[0]
+  File "D:\Softwares\Python\3.11\Lib\socket.py", line 836, in create_connection
+    sock.connect(sa)
+OSError: [WinError 10065] 套接字操作尝试一个无法连接的主机。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 301, in <module>
+    syncer.start_stream()
+  File "D:\Workspaces\Pycharm\scripts\fois\binlog2sftp.py", line 276, in start_stream
+    for event in stream:
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysqlreplication\binlogstream.py", line 422, in fetchone
+    self.__connect_to_stream()
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysqlreplication\binlogstream.py", line 277, in __connect_to_stream
+    self._stream_connection = self.pymysql_wrapper(**self.__connection_settings)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\__init__.py", line 94, in Connect
+    return Connection(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\connections.py", line 325, in __init__
+    self.connect()
+  File "D:\Softwares\Python\3.11\Lib\site-packages\pymysql\connections.py", line 630, in connect
+    raise exc
+pymysql.err.OperationalError: (2003, "Can't connect to MySQL server on '172.28.12.64' ([WinError 10065] 套接字操作尝试一个无法连接的主机。)")
