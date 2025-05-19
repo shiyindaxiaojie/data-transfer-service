@@ -1,0 +1,4 @@
+python-dotenv==1.0.0
+pymysql==0.9.3
+mysql-replication==0.23
+csvkit==1.0.7

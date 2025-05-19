@@ -1,8 +1,0 @@
-numpy==1.26.4
-tenacity==8.2.3
-langchain==0.0.276
-scipy==1.11.2
-pandas
-configparser
-pymysql==0.9.3
-mysql-replication==0.23

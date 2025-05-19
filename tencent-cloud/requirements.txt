@@ -1,3 +1,0 @@
-tencentcloud-sdk-python>=3.0.924  # 腾讯云官方SDK
-xlsxwriter>=3.1.8                # Excel生成库
-python-dotenv>=1.0.0             # 推荐用于密钥管理
