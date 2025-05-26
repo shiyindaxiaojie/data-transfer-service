@@ -7,8 +7,6 @@ import time
 
 import pymysql
 import csv
-import threading
-from queue import Queue
 from datetime import datetime
 from pymysqlreplication import BinLogStreamReader
 from pymysqlreplication.event import RotateEvent
@@ -18,62 +16,9 @@ from pymysqlreplication.row_event import (
     WriteRowsEvent,
     TableMapEvent
 )
-from dotenv import load_dotenv, dotenv_values
-import re
-import paramiko
-from stat import S_ISDIR
 
-# 加载环境变量
-load_dotenv()
-
-def load_data_sources():
-    """加载所有数据源配置"""
-    env_vars = dotenv_values(".env")
-    sources = []
-    pattern = re.compile(r'^(DS[A-Z0-9_]+)_MYSQL_HOST$')
-
-    for key in env_vars:
-        match = pattern.match(key)
-        if match:
-            ds_name = match.group(1)
-            try:
-                mysql_settings = {
-                    'host': env_vars.get(f'{ds_name}_MYSQL_HOST'),
-                    'port': int(env_vars.get(f'{ds_name}_MYSQL_PORT', '3306')),
-                    'user': env_vars.get(f'{ds_name}_MYSQL_USER'),
-                    'password': env_vars.get(f'{ds_name}_MYSQL_PASSWORD'),
-                    'charset': 'utf8mb4'
-                }
-                tables_list = [
-                    tbl.strip()
-                    for tbl in env_vars.get(f'{ds_name}_TABLES_LIST', '').split(',')
-                    if tbl.strip()
-                ]
-                sources.append(DataSourceConfig(
-                    name=ds_name,
-                    mysql_settings=mysql_settings,
-                    tables_list=tables_list
-                ))
-            except Exception as e:
-                logging.error(f"加载数据源 {ds_name} 失败: {str(e)}")
-    return sources
-
-class DataSourceConfig:
-    def __init__(self, name, mysql_settings, tables_list):
-        self.name = name
-        self.mysql_settings = mysql_settings
-        self.tables_to_watch = [tuple(tbl.strip().split('.', 1)) for tbl in tables_list if '.' in tbl]
-
-        # 生成数据源专用目录结构
-        self.base_dir = os.path.abspath(os.getenv('TARGET_DIR', './target'))
-        self.output_dir = os.path.join(self.base_dir, 'data', self.name)
-        self.checkpoint_dir = os.path.join(self.base_dir, 'checkpoint', self.name)
-        self.log_dir = os.path.join(self.base_dir, 'logs', self.name)
-
-        os.makedirs(self.output_dir, exist_ok=True)
-        os.makedirs(self.checkpoint_dir, exist_ok=True)
-        os.makedirs(self.log_dir, exist_ok=True)
-
+from datasource import DataSourceConfig
+from processors import ProcessorManager
 
 class BinlogSync:
     def __init__(self, ds_config):
@@ -86,30 +31,96 @@ class BinlogSync:
         self.file_handles = {}
         self.table_map = {}
         self.table_schemas = {}
+        
+        # 初始化处理器管理器
+        self.processor_manager = ProcessorManager()
+        self.processor_manager.load_processors()
+        
+        # 确保数据目录存在
+        current_date = datetime.now().strftime('%Y-%m-%d')
+        date_dir = os.path.join(self.ds_config.output_dir, current_date)
+        os.makedirs(date_dir, exist_ok=True)
+        self.logger.info(f"已创建数据目录: {date_dir}")
+        
+        # 验证binlog配置和权限
+        self._verify_binlog_settings()
 
+    def _verify_binlog_settings(self):
+        """验证binlog配置和权限"""
+        try:
+            conn = pymysql.connect(**self.ds_config.mysql_settings)
+            cursor = conn.cursor()
+            
+            # 检查binlog是否开启
+            cursor.execute("SHOW VARIABLES LIKE 'log_bin'")
+            log_bin = cursor.fetchone()
+            if not log_bin or log_bin[1].lower() != 'on':
+                raise RuntimeError("MySQL binlog未开启，请检查MySQL配置")
+            
+            # 检查binlog格式
+            cursor.execute("SHOW VARIABLES LIKE 'binlog_format'")
+            binlog_format = cursor.fetchone()
+            if not binlog_format or binlog_format[1].upper() != 'ROW':
+                raise RuntimeError(f"Binlog格式必须为ROW，当前为: {binlog_format[1] if binlog_format else 'UNKNOWN'}")
+            
+            # 检查用户权限
+            cursor.execute("SHOW GRANTS FOR CURRENT_USER")
+            grants = [grant[0].upper() for grant in cursor.fetchall()]
+            replication_found = any('REPLICATION' in grant for grant in grants)
+            if not replication_found:
+                raise RuntimeError("当前用户缺少REPLICATION权限，请授予必要权限")
+            
+            # 获取当前binlog文件和位置
+            cursor.execute("SHOW MASTER STATUS")
+            master_status = cursor.fetchone()
+            if not master_status:
+                raise RuntimeError("无法获取binlog状态，请检查MySQL配置")
+                
+            self.logger.info(f"Binlog配置验证成功: 格式={binlog_format[1]}, 当前文件={master_status[0]}")
+            
+        except Exception as e:
+            self.logger.error(f"Binlog配置验证失败: {str(e)}")
+            raise
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            if 'conn' in locals():
+                conn.close()
+    
     def _configure_logging(self):
         """配置日志系统"""
-        log_file = os.path.join(self.ds_config.log_dir, 'sync.log')
-
-        self.logger = logging.getLogger(self.ds_config.name)
+        # 使用带数据源前缀的logger名称
+        logger_name = f"DS:{self.ds_config.name}"
+        self.logger = logging.getLogger(logger_name)
         self.logger.setLevel(logging.DEBUG)
-
-        if not self.logger.handlers:
+        
+        # 确保日志传播到根日志记录器
+        self.logger.propagate = True
+        
+        # 添加数据源特定的文件处理器
+        try:
+            log_file = os.path.join(self.ds_config.log_dir, 'sync.log')
+            os.makedirs(self.ds_config.log_dir, exist_ok=True)
+            
+            # 清除已有的处理器，避免重复
+            if self.logger.handlers:
+                for handler in self.logger.handlers[:]:
+                    self.logger.removeHandler(handler)
+            
             formatter = logging.Formatter(
-                f'%(asctime)s.%(msecs)03d [%(levelname)s] [DS:{self.ds_config.name}] [%(funcName)s] %(message)s',
-                 datefmt='%Y-%m-%d %H:%M:%S'
+                '%(asctime)s.%(msecs)03d [%(levelname)s] [%(name)s] [%(funcName)s] %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S'
             )
-
-            console_handler = logging.StreamHandler(sys.stdout)
-            console_handler.setFormatter(formatter)
-            self.logger.addHandler(console_handler)
-
-            try:
-                file_handler = logging.FileHandler(log_file, encoding='utf-8', mode='a')
-                file_handler.setFormatter(formatter)
-                self.logger.addHandler(file_handler)
-            except Exception as e:
-                sys.stderr.write(f"无法创建日志文件: {str(e)}\n")
+            
+            file_handler = logging.FileHandler(log_file, encoding='utf-8')
+            file_handler.setFormatter(formatter)
+            file_handler.setLevel(logging.DEBUG)
+            self.logger.addHandler(file_handler)
+            
+            self.logger.info(f'日志系统初始化完成，日志文件: {log_file}')
+        except Exception as e:
+            sys.stderr.write(f"无法创建日志文件 {log_file}: {str(e)}\n")
+            raise
 
     def _create_mysql_config(self):
         """创建临时配置文件"""
@@ -125,10 +136,10 @@ class BinlogSync:
             f.write(config_content.strip())
         return config_path
 
-    def full_export(self, enable_full_export):
-        """全量导出"""
+    def full_sync(self, enable_full_export):
+        """全量同步"""
         if not enable_full_export:
-            self.logger.info("全量导出功能已禁用")
+            self.logger.info(f"{self.ds_config.name} 全量同步功能已禁用")
             return
 
         config_path = None
@@ -168,6 +179,8 @@ class BinlogSync:
                         raise RuntimeError(f"mysqldump 导出错误: {stderr}")
 
                 self.logger.info(f"数据库 {db} 导出完成 -> {os.path.getsize(output_file) / 1024 / 1024:.2f} MB")
+            
+            self.processor_manager.process_data(self.ds_config, dump_dir)
         except Exception as e:
             self.logger.error(f"全量导出失败: {str(e)}", exc_info=True)
             raise
@@ -179,18 +192,62 @@ class BinlogSync:
                     self.logger.warning(f"临时文件删除失败: {str(e)}")
 
     def _load_checkpoint(self):
-        """加载检查点"""
+        """加载检查点，如果检查点无效则获取当前binlog位置"""
         try:
-            with open(self.position_file, 'r') as f:
-                log_file, log_pos = f.read().strip().split(':')
-                return log_file, int(log_pos)
-        except (FileNotFoundError, ValueError):
+            # 确保目录存在
+            os.makedirs(os.path.dirname(self.position_file), exist_ok=True)
+            
+            # 尝试从检查点文件加载
+            if os.path.exists(self.position_file):
+                with open(self.position_file, 'r') as f:
+                    content = f.read().strip()
+                    if content and ':' in content:
+                        log_file, log_pos = content.split(':')
+                        self.logger.info(f"成功加载检查点: {log_file}:{log_pos}")
+                        return log_file, int(log_pos)
+                    else:
+                        self.logger.warning(f"检查点文件格式不正确: {content}")
+            else:
+                self.logger.warning(f"检查点文件不存在: {self.position_file}")
+            
+            # 如果检查点无效，获取当前binlog位置
+            try:
+                conn = pymysql.connect(**self.ds_config.mysql_settings)
+                cursor = conn.cursor()
+                cursor.execute("SHOW MASTER STATUS")
+                result = cursor.fetchone()
+                if result:
+                    current_log_file, current_log_pos = result[0], int(result[1])
+                    self.logger.info(f"使用当前binlog位置: {current_log_file}:{current_log_pos}")
+                    return current_log_file, current_log_pos
+                else:
+                    self.logger.error("无法获取当前binlog位置")
+            except Exception as e:
+                self.logger.error(f"获取当前binlog位置失败: {str(e)}")
+            finally:
+                if 'cursor' in locals():
+                    cursor.close()
+                if 'conn' in locals():
+                    conn.close()
+            
+            return None, None
+        except (FileNotFoundError, ValueError, IOError) as e:
+            self.logger.error(f"加载检查点失败: {str(e)}")
             return None, None
 
     def _save_checkpoint(self, log_file, log_pos):
         """保存检查点"""
-        with open(self.position_file, 'w') as f:
-            f.write(f"{log_file}:{log_pos}")
+        try:
+            os.makedirs(os.path.dirname(self.position_file), exist_ok=True)
+            
+            with open(self.position_file, 'w') as f:
+                f.write(f"{log_file}:{log_pos}")
+                f.flush()
+                os.fsync(f.fileno())  # 确保数据写入磁盘
+            self.logger.debug(f"保存检查点成功: {log_file}:{log_pos}")
+        except (IOError, OSError) as e:
+            self.logger.error(f"保存检查点失败: {str(e)}")
+            # 不抛出异常，避免中断同步进程
 
     def _get_table_schema(self, db, table):
         """获取表结构"""
@@ -322,9 +379,9 @@ class BinlogSync:
                 f"pos={event.packet.log_pos} data={ {k: v for k, v in data.items() if k not in ['log_pos']} }"
             )
 
-    def start_stream(self, enable_incremental_sync):
+    def incr_sync(self, enable_incremental_sync):
         if not enable_incremental_sync:
-            self.logger.info("增量同步功能已禁用")
+            self.logger.info(f"{self.ds_config.name} 增量同步功能已禁用")
             return
 
         log_file, log_pos = self._load_checkpoint()
@@ -346,21 +403,33 @@ class BinlogSync:
             'blocking': True,
             'only_schemas': list({db for db, _ in self.ds_config.tables_to_watch}),
             'only_tables': list({tbl for _, tbl in self.ds_config.tables_to_watch}),
-            'freeze_schema': True
+            'freeze_schema': True,
+            'slave_heartbeat': 0.5  # 设置从服务器心跳间隔为0.5秒
         }
 
         stream = None
         try:
             stream = BinLogStreamReader(**stream_settings)
-            self.logger.info(f"Binlog流已连接 当前文件: {stream.log_file}")
+            self.logger.info(f"连接 binlog，当前文件: {stream.log_file}")
 
             for event in stream:
                 if isinstance(event, RotateEvent):
                     self._save_checkpoint(event.next_binlog, event.position)
-                    self.logger.info(f"检测到binlog切换: {event.next_binlog}")
+                    self.logger.info(f"检测到 binlog 切换: {event.next_binlog}")
                 else:
                     self._process_event(event)
                     self._save_checkpoint(stream.log_file, event.packet.log_pos)
+                    
+                    # 每次有数据变更时立即处理
+                    current_date = datetime.now().strftime('%Y-%m-%d')
+                    date_dir = os.path.join(self.ds_config.output_dir, current_date)
+                    # 先关闭所有文件，确保数据已写入
+                    self._close_all_files()
+                    if os.path.exists(date_dir) and os.listdir(date_dir):
+                        self.processor_manager.process_data(self.ds_config, date_dir)
+                        self.logger.info(f"已调用处理器处理数据: {date_dir}")
+                    else:
+                        self.logger.info(f"数据目录不存在或为空，跳过处理: {date_dir}")
         except KeyboardInterrupt:
             self.logger.info("用户手动终止同步")
         except Exception as e:
@@ -371,132 +440,3 @@ class BinlogSync:
                 stream.close()
             self._close_all_files()
             self.logger.info(f"增量同步停止 最终位置: {self._load_checkpoint()[0]}:{self._load_checkpoint()[1]}")
-
-class ThreadManager:
-    def __init__(self, data_sources):
-        self.data_sources = data_sources
-        self.threads = []
-        self.exception_queue = Queue()
-
-    def _sync_worker(self, ds):
-        """单个数据源的同步任务"""
-        try:
-            syncer = BinlogSync(ds)
-            enable_full = os.getenv(f'{ds.name}_ENABLE_FULL_EXPORT', 'false').lower() == 'true'
-            enable_incr = os.getenv(f'{ds.name}_ENABLE_INCREMENTAL_SYNC', 'true').lower() == 'true'
-            syncer.full_export(enable_full)
-            syncer.start_stream(enable_incr)
-        except Exception as e:
-            self.exception_queue.put(e)
-            logging.error(f"数据源 {ds.name} 同步异常: {str(e)}", exc_info=True)
-
-    def start(self):
-        """启动所有数据源的并行同步"""
-        for ds in self.data_sources:
-            thread = threading.Thread(
-                target=self._sync_worker,
-                args=(ds,),
-                name=f"SyncThread-{ds.name}",
-                daemon=True
-            )
-            self.threads.append(thread)
-            thread.start()
-            logging.info(f"已启动数据源 {ds.name} 的同步线程")
-
-        try:
-            while any(t.is_alive() for t in self.threads):
-                time.sleep(0.5)
-                if not self.exception_queue.empty():
-                    raise self.exception_queue.get()
-        except KeyboardInterrupt:
-            logging.info("用户终止所有同步")
-        finally:
-            # 等待所有线程优雅退出
-            for t in self.threads:
-                t.join(timeout=3)
-
-class SFTPUploader:
-    def __init__(self, ds_config):
-        self.ds_config = ds_config
-        self._load_sftp_config()
-        self.logger = logging.getLogger(f"SFTP.{ds_config.name}")
-
-    def _load_sftp_config(self):
-        """从环境变量加载SFTP配置"""
-        self.sftp_config = {
-            'host': os.getenv(f'OUTPUT_SFTP_HOST', '127.0.0.1'),
-            'port': int(os.getenv(f'OUTPUT_SFTP_PORT', '22')),
-            'username': os.getenv(f'OUTPUT_SFTP_USER', ''),
-            'password': os.getenv(f'OUTPUT_SFTP_PASSWORD', ''),
-            'remote_base': os.getenv(f'OUTPUT_SFTP_REMOTE_DIR', '/data')
-        }
-
-    def _mkdir_p(self, sftp, remote_path):
-        """递归创建远程目录"""
-        try:
-            sftp.chdir(remote_path)
-            return
-        except IOError:
-            dirname, basename = os.path.split(remote_path.rstrip('/'))
-            self._mkdir_p(sftp, dirname)
-            sftp.mkdir(basename)
-            sftp.chdir(basename)
-
-    def upload_directory(self, local_dir):
-        """上传整个目录到SFTP"""
-        try:
-            transport = paramiko.Transport((self.sftp_config['host'], self.sftp_config['port']))
-            transport.connect(username=self.sftp_config['username'], password=self.sftp_config['password'])
-            sftp = paramiko.SFTPClient.from_transport(transport)
-
-            # 构建远程路径
-            remote_dir = os.path.join(
-                self.sftp_config['remote_base'],
-                os.path.basename(local_dir)
-            )
-
-            # 创建远程目录
-            self._mkdir_p(sftp, remote_dir)
-
-            # 遍历本地目录上传
-            for root, dirs, files in os.walk(local_dir):
-                for filename in files:
-                    local_path = os.path.join(root, filename)
-                    relative_path = os.path.relpath(local_path, local_dir)
-                    remote_path = os.path.join(remote_dir, relative_path)
-
-                    # 确保远程目录存在
-                    remote_dirname = os.path.dirname(remote_path)
-                    self._mkdir_p(sftp, remote_dirname)
-
-                    sftp.put(local_path, remote_path)
-                    self.logger.info(f"上传成功: {local_path} -> {remote_path}")
-
-            sftp.close()
-            transport.close()
-        except Exception as e:
-            self.logger.error(f"SFTP上传失败: {str(e)}", exc_info=True)
-
-if __name__ == '__main__':
-    try:
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s.%(msecs)03d [%(levelname)s] [main] %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S',
-            handlers=[
-                logging.StreamHandler(sys.stdout),
-                logging.FileHandler('./main.log')
-            ]
-        )
-
-        data_sources = load_data_sources()
-
-        if not data_sources:
-            raise ValueError("未找到有效的数据源配置，请检查配置是否正确。")
-
-        manager = ThreadManager(data_sources)
-        manager.start()
-
-    except Exception as e:
-        logging.critical(f"全局异常: {str(e)}", exc_info=True)
-        sys.exit(1)

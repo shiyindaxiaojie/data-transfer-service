@@ -1,0 +1,9 @@
+apiVersion: v2
+name: data-transfer
+description: A Helm chart for data transfer service
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+maintainers:
+  - name: DevOps Team

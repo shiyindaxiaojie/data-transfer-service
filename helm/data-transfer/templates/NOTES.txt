@@ -1,0 +1,30 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ kubectl get pods -l "app.kubernetes.io/name={{ include "data-transfer.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"
+  $ kubectl logs -l "app.kubernetes.io/name={{ include "data-transfer.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"
+
+Configuration Details:
+- Target Directory: {{ .Values.config.targetDir }}
+- Binlog Sync Interval: {{ .Values.config.binlogSyncInterval }} seconds
+- Enabled Processors: {{ .Values.config.enabledProcessors }}
+
+DS_FUNDS Configuration:
+- Tables List: {{ .Values.config.dsFunds.tablesList }}
+- Full Sync: {{ .Values.config.dsFunds.enableFullSync }}
+- Incremental Sync: {{ .Values.config.dsFunds.enableIncrementalSync }}
+- SFTP Upload: {{ .Values.config.dsFunds.enableSftpUpload }}
+
+DS_HEDGE Configuration:
+- Tables List: {{ .Values.config.dsHedge.tablesList }}
+- Full Sync: {{ .Values.config.dsHedge.enableFullSync }}
+- Incremental Sync: {{ .Values.config.dsHedge.enableIncrementalSync }}
+- SFTP Upload: {{ .Values.config.dsHedge.enableSftpUpload }}
+
+SFTP Configuration:
+- Remote Directory: {{ .Values.config.sftp.remoteDir }}
+
+For more information, please refer to the README.md in the chart directory.

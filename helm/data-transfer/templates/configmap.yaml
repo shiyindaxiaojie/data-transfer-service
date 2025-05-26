@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "data-transfer.fullname" . }}
+  labels:
+    {{- include "data-transfer.labels" . | nindent 4 }}
+data:
+  TARGET_DIR: {{ .Values.config.targetDir }}
+  BINLOG_INCR_SYNC_INTERVAL_SECONDS: {{ .Values.config.binlogSyncInterval | quote }}
+  
+  # DS1 configuration
+  DS1_MYSQL_HOST: {{ .Values.config.ds1.mysql.host }}
+  DS1_MYSQL_PORT: {{ .Values.config.ds1.mysql.port | quote }}
+  DS1_MYSQL_USER: {{ .Values.config.ds1.mysql.user }}
+  DS1_MYSQL_PASSWORD: {{ .Values.config.ds1.mysql.password }}
+  DS1_MYSQL_SERVER_ID: {{ .Values.config.ds1.mysql.serverId }}
+  DS1_TABLES_LIST: {{ .Values.config.ds1.tablesList }}
+  DS1_ENABLE_FULL_SYNC: {{ .Values.config.ds1.enableFullSync | quote }}
+  DS1_ENABLE_INCREMENTAL_SYNC: {{ .Values.config.ds1.enableIncrementalSync | quote }}
+  DS1_ENABLE_SFTP_UPLOAD: {{ .Values.config.ds1.enableSftpUpload | quote }}
+  
+  # DS2 configuration
+  DS2_MYSQL_HOST: {{ .Values.config.ds2.mysql.host }}
+  DS2_MYSQL_PORT: {{ .Values.config.ds2.mysql.port | quote }}
+  DS2_MYSQL_USER: {{ .Values.config.ds2.mysql.user }}
+  DS2_MYSQL_PASSWORD: {{ .Values.config.ds2.mysql.password }}
+  DS2_MYSQL_SERVER_ID: {{ .Values.config.ds2.mysql.serverId }}
+  DS2_TABLES_LIST: {{ .Values.config.ds2.tablesList }}
+  DS2_ENABLE_FULL_SYNC: {{ .Values.config.ds2.enableFullSync | quote }}
+  DS2_ENABLE_INCREMENTAL_SYNC: {{ .Values.config.ds2.enableIncrementalSync | quote }}
+  DS2_ENABLE_SFTP_UPLOAD: {{ .Values.config.ds2.enableSftpUpload | quote }}
+  
+  # Processor configuration
+  ENABLED_PROCESSORS: {{ .Values.config.enabledProcessors }}
+  
+  # SFTP output configuration
+  OUTPUT_SFTP_HOST: {{ .Values.config.sftp.host }}
+  OUTPUT_SFTP_PORT: {{ .Values.config.sftp.port | quote }}
+  OUTPUT_SFTP_USER: {{ .Values.config.sftp.user }}
+  OUTPUT_SFTP_PASSWORD: {{ .Values.config.sftp.password }}
+  OUTPUT_SFTP_REMOTE_DIR: {{ .Values.config.sftp.remoteDir }}

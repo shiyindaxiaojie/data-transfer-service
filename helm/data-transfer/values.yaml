@@ -1,0 +1,82 @@
+# Default values for data-transfer service
+replicaCount: 1
+
+image:
+  repository: data-transfer-service
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+persistence:
+  enabled: true
+  storageClass: ""
+  size: 10Gi
+
+config:
+  targetDir: /app/target
+  binlogSyncInterval: 5
+  
+  # DS1 configuration
+  ds1:
+    mysql:
+      host: "${DS1_MYSQL_HOST}"
+      port: 3306
+      user: "${DS1_MYSQL_USER}"
+      password: "${DS1_MYSQL_PASSWORD}"
+      serverId: "${DS1_MYSQL_SERVER_ID}"
+    tablesList: "db_name.table_name1,db_name.table_name2"
+    enableFullSync: false
+    enableIncrementalSync: true
+    enableSftpUpload: true
+  
+  # DS2 configuration
+  ds2:
+    mysql:
+      host: "${DS2_MYSQL_HOST}"
+      port: 3306
+      user: "${DS2_MYSQL_USER}"
+      password: "${DS2_MYSQL_PASSWORD}"
+      serverId: "${DS2_MYSQL_SERVER_ID}"
+    tablesList: "db_name.table_name1,db_name.table_name2"
+    enableFullSync: false
+    enableIncrementalSync: true
+    enableSftpUpload: true
+  
+  # Processor configuration
+  enabledProcessors: sftp
+  
+  # SFTP output configuration
+  sftp:
+    host: "${OUTPUT_SFTP_HOST}"
+    port: 22
+    user: "${OUTPUT_SFTP_USER}"
+    password: "${OUTPUT_SFTP_PASSWORD}"
+    remoteDir: /upload
